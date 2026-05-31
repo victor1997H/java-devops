@@ -1,0 +1,38 @@
+name: Java application
+
+on:
+  push:
+    branches: [ "main" ]
+
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v4
+
+    - name: Configurar Java 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 21
+
+    - name: Compilar proyecto
+      run: mvn compile
+
+    - name: Ejecutar pruebas
+      run: mvn test
+
+    - name: Crear JAR
+      run: mvn package
+
+    - name: Ejecutar aplicación
+      run: java -jar target/java-devops-1.0.0.jar
+
+    - name: Simular deploy
+      run: echo "Simulando despliegue..."
